@@ -3,7 +3,9 @@ export const ACTION_TYPES = {
     CREATE: 'CREATE',
     UPDATE: 'UPDATE',
     DELETE: 'DELETE',
-    FETCH_ALL: 'FETCH_ALL'
+    FETCH_ALL: 'FETCH_ALL',
+    SELECT_PERSON:'SELECT_PERSON',
+    CLREAR_PERSON:'CLEAR_PEROSN'
 }
 
 export const fetchAll = () => dispatch => {
@@ -32,4 +34,16 @@ export const postData = (data) => dispatch => {
         console.log(errors);
     });
 
+}
+export const selectPerson = (data)=>dispatch =>{
+    dispatch({
+        type:ACTION_TYPES.SELECT_PERSON,
+        payload:data
+    })
+}
+export const clearPerson = ()=>dispatch =>{
+    dispatch({
+        type:ACTION_TYPES.CLREAR_PERSON,
+        payload:null
+    });
 }

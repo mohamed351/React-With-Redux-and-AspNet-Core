@@ -11,7 +11,13 @@ export default {
                 headers: {
                     'Content-Type': 'application/json',
                 }
-            })
+            }),
+            putData:(data)=> axious.put(url,data,{
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            }),
+            deleteData:(id)=> axious.delete(url+id)
         }
     }
 }

@@ -1,12 +1,17 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchAll } from '../redux/actions/people.actions';
+import { fetchAll ,selectPerson} from '../redux/actions/people.actions';
 import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import  './PersonList.css';
 const ListCompnent = (props) => {
     useEffect(() => {
         props.fetchAll();
     }, []);
-    console.log(props.PeopleList)
+
+   const  rowClicked=(data)=>{
+     props.selectPerson(data);
+    }
+    
     return (
         <>
             <h2>Personal Data</h2>
@@ -25,7 +30,7 @@ const ListCompnent = (props) => {
 
                         {
                             props.PeopleList.map(a => {
-                                return (<TableRow key={a.id}>
+                                return (<TableRow onClick={()=>rowClicked(a)} className="hover-element" key={a.id}>
                                     <TableCell> {a.id}</TableCell>
                                     <TableCell> {a.name}</TableCell>
                                     <TableCell>{a.phone}</TableCell>
@@ -44,7 +49,8 @@ const mapStateToProps = state => ({
     PeopleList: state.peopleReducer.list
 });
 const mapActionToProps = {
-    fetchAll: fetchAll
+    fetchAll: fetchAll,
+    selectPerson:selectPerson
 }
 
 

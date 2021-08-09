@@ -1,7 +1,8 @@
 import { ACTION_TYPES } from '../actions/people.actions';
 
 const intialState = {
-    list: []
+    list: [],
+    selectedPerson:null
 }
 export const peopleReducer = (state = intialState, actions) => {
     switch (actions.type) {
@@ -15,6 +16,10 @@ export const peopleReducer = (state = intialState, actions) => {
                 ...state,
                 list: [...state.list, actions.payload]
             }
+        case ACTION_TYPES.SELECT_PERSON:
+          return  {...state,selectedPerson:actions.payload}
+        case ACTION_TYPES.CLREAR_PERSON:
+            return {...state, selectedPerson:null}
         default:
             return state;
     }

@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import { postData } from '../redux/actions/people.actions';
-import { TextField, MenuItem, Select, InputLabel, Button } from '@material-ui/core';
+import { postData, clearPerson } from '../redux/actions/people.actions';
+import { TextField, MenuItem, Select, InputLabel, Button , FormControl} from '@material-ui/core';
 import { connect } from 'react-redux';
+
 
 const PersonComponent = (props) => {
     const [open, setOpen] = React.useState(false);
     const [bloodGroup, setbloodGroup] = React.useState('');
+    const [id, setID] = useState(-1);
     const [values, setValues] = React.useState({
         name: '',
         phone: '',
         address: '',
-        bloodGroup: ''
+        bloodGroup: '',
+        
     })
     const handleChange = (event) => {
         setbloodGroup(event.target.value);
@@ -41,10 +44,23 @@ const PersonComponent = (props) => {
         console.log(e);
         props.postData(values);
     }
+    const clearText =()=>{
+        setValues({
+            name: '',
+            phone: '',
+            address: '',
+            bloodGroup: '',
+        })
+        setID(-1);
+        setbloodGroup('');
+        props.clearPersonEdit();
+    }
     return (
         <div>
             <h2>Personal Info</h2>
+            {props.SelectedPerson != null ? props.SelectedPerson.id : 'not Exist'}
             <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+                <input type="hidden" value={values.id} name="id" onChange={handleChange} />
                 <TextField onChange={handleInputChange}
                     label="Name"
                     style={{ margin: "10px" }}
@@ -65,10 +81,10 @@ const PersonComponent = (props) => {
                     name="address"
                 />
 
-                <div style={{ marginLeft: "10px", width: "90%" }}>
-                    <InputLabel id="label">Age</InputLabel>
+<FormControl style={{width:"222px"}} variant="outlined" >
+        <InputLabel id="demo-simple-select-outlined-label">Blood Group</InputLabel>
                     <Select
-                        style={{ width: "100%" }}
+                       style={{ margin: "10px" }}
                         open={open}
                         onClose={handleClose}
                         onOpen={handleOpen}
@@ -82,11 +98,17 @@ const PersonComponent = (props) => {
                         <MenuItem value={'B'}>B</MenuItem>
                         <MenuItem value={'O'}>O</MenuItem>
                     </Select>
-                </div>
+      </FormControl>
+                    
+               
 
                 <div style={{ marginTop: "25px" }}>
                     <Button type="Submit" variant="contained" color="primary">
                         Submit
+                    </Button>
+                        |
+                    <Button type="Button" onClick={clearText} variant="contained" color="default">
+                         Clear
                     </Button>
                 </div>
             </form>
@@ -94,10 +116,13 @@ const PersonComponent = (props) => {
     )
 }
 const mapStateToProps = state => ({
-    PeopleList: state.peopleReducer.list
+    PeopleList: state.peopleReducer.list,
+    SelectedPerson:state.peopleReducer.selectedPerson
+   
 });
 const mapActionToProps = {
-    postData: postData
+    postData: postData,
+    clearPersonEdit:clearPerson
 }
 
 export default connect(mapStateToProps, mapActionToProps)(PersonComponent);

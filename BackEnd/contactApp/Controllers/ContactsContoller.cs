@@ -44,6 +44,29 @@ namespace contactApp.Controllers
             this.context.SaveChanges();
             return Created("", person);
         }
+        [HttpPut]
+        public IActionResult ChangePersonData(Person person){
+            if(!ModelState.IsValid){
+                return BadRequest("The Data is not valid");
+            }
+            this.context.Entry(person).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            this.context.SaveChanges();
+            return NoContent();
+        }
+        [HttpDelete("{id?}")]
+        public IActionResult DeletePersonData(int? id){
+            if(id == null){
+                return BadRequest("The ID is not Specified");
+            }
+           var person = this.context.People.Find(id);
+           if(person == null){
+               return NotFound("The Person is not found");
+           }
+           this.context.People.Remove(person);
+           this.context.SaveChanges();
+           return Ok(person);
+
+        }
 
     }
 }
