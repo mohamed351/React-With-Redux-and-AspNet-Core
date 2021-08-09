@@ -1,5 +1,5 @@
 # React With Redux
-## This Application about Me 
+## This Application about React And Redux CRUD
 ### 1- Install React , React Redux , Redux Thunk
 ```
  npm install react react-redux redux thunk
